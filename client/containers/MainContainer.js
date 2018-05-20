@@ -6,39 +6,36 @@ import {
   View,
   TextInput
 } from 'react-native';
-import PhotosDisplay from '../components/PhotosDisplay'
-// import requestPhotos from '../actions/actions'
+import Main from '../components/Main'
+import { selectPhoto, goBack } from '../actions/actions'
 
 const mapStateToProps = state => ({
   photos: state.photos,
+  index: state.indexOfSelectedPhoto,
+  position: state.position,
   mainPage: state.mainPage //if mainPage is true, render mainPage (list of photos), otherwise details page of specific photo
 });
 
-// const mapDispatchToProps = dispatch => ({
-
-// });
+const mapDispatchToProps = dispatch => ({
+  selectPhoto: (photoID, position) => dispatch(selectPhoto(photoID)),
+  goBack: () => dispatch(goBack())
+});
 
 class MainContainer extends Component {
-  // constructor(props) {
-  //   super(props)
-  // }
-  // state = { photos: [] };
-  // componentDidMount() {
-  //   requestPhotos(photos =>
-  //     this.setState({ photos: photos })
-  //   );
-  // }
   render() {
-    // return <PhotosDisplay photos={this.state.photos} />;
     return (
       <View>
-        <PhotosDisplay photos={(this.props.photos.length) ? this.props.photos : []} />
+        <Main 
+          photos={(this.props.photos.length) ? this.props.photos : []} 
+          index={this.props.index}
+          position={this.props.position}
+          mainPage={this.props.mainPage}
+          selectPhoto={this.props.selectPhoto} 
+          goBack={this.props.goBack}
+        />
       </View>
     )
   }
 }
 
-// export default MainContainer
-
-export default connect(mapStateToProps)(MainContainer);
-// export default connect(mapStateToProps, mapDispatchToProps)(MainContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(MainContainer);

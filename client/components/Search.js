@@ -6,22 +6,24 @@ import {
   TextInput
 } from 'react-native';
 
-//pretty sure we can destructure these props immediately ({ search })
- const Search = (props) => (
+ const Search = (props) => {
+   return (
     <View style={styles.header}>
       <TextInput 
         style={styles.input}
         placeholder='Enter Text'
-        onSubmitEditing={(text) => props.search(text)}
+        onSubmitEditing={(event) => props.search(event.nativeEvent.text)}
       />
     </View>
- )
+ )}
 
 const styles = StyleSheet.create({
   header: {
     height: 100,
-    backgroundColor: "red",
-    alignItems: "center"
+    backgroundColor: "#f2f2f2",
+    alignItems: "center",
+    borderBottomColor: "black",
+    borderBottomWidth: 1
   },
   input: {
     height: 40,

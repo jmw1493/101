@@ -8,9 +8,15 @@ export const goBack = () => ({
   type: types.GO_BACK
 })
 
-export const selectPhoto = (photo) => ({
+export const selectPhoto = (photoID, position) => ({
   type: types.SELECT_PHOTO,
-  photo
+  photoID,
+  position
+})
+
+export const updatePosition = (position) => ({
+  type: types.UPDATE_POSITION,
+  position
 })
 
 const deliverPhotos = (photos) => ({
@@ -19,14 +25,10 @@ const deliverPhotos = (photos) => ({
 })
 
 function fetchPhotos(search) {
-  console.log(search)
   const API_Key = '9018030-ff43f446a20beb47e7c302b8a'
   const baseURL = `https://pixabay.com/api/?key=${API_Key}&q=`
-  // var find = 'abc';
   const re = new RegExp(' ', 'g');
-  // let searchURL = search.replace(re, '+');
-  // let searchURL = search.replace(' ', '+')
-  let searchURL = 'dogs'
+  let searchURL = search.replace(re, '+');
   const specsURL = '&image_type=photo&pretty=true&per_page=200'
   const url = baseURL + searchURL + specsURL
   return fetch(url)

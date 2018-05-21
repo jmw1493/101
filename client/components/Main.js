@@ -14,12 +14,15 @@ const Main = (props) => (
           selectPhoto={props.selectPhoto} 
           updatePosition={props.updatePosition}
           orientation={props.orientation}
+          initialRender={props.initialRender}
+          loading={props.loading}
         />
       :
         <Detail 
           photo={props.photos[props.index]} 
           goBack={props.goBack}
           orientation={props.orientation}
+          loading={props.loading}
         />
     }
   </View>

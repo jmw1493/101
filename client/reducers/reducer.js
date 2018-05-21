@@ -9,7 +9,9 @@ const initialState = {
   indexOfSelectedPhoto: 0,
   mainPage: true,
   position: 0,
-  orientation: orientation
+  orientation: orientation,
+  initialRender: true,
+  loading: false
 };
 
 const reducer = (state=initialState, action) => {
@@ -18,7 +20,9 @@ const reducer = (state=initialState, action) => {
       return Object.assign({}, state, {
         photos: action.photos,
         mainPage: true,
-        position: 0
+        position: 0,
+        initialRender: false,
+        loading: false
       })
     case types.SELECT_PHOTO:
       let selectedPhotoIndex = state.photos.map((photo) => photo.id).indexOf(action.photoID);
@@ -33,6 +37,10 @@ const reducer = (state=initialState, action) => {
     case types.ROTATE:
       return Object.assign({}, state, {
         orientation: action.orientation
+      })
+    case types.LOADING:
+      return Object.assign({}, state, {
+        loading: action.bool
       })
     case types.GO_BACK:
       return Object.assign({}, state, {mainPage: true})

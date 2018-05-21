@@ -9,7 +9,9 @@ const mapStateToProps = state => ({
   index: state.indexOfSelectedPhoto,
   position: state.position,
   mainPage: state.mainPage,
-  orientation: state.orientation
+  orientation: state.orientation,
+  initialRender: state.initialRender,
+  loading: state.loading
 });
 
 const mapDispatchToProps = dispatch => ({

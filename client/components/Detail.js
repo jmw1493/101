@@ -5,6 +5,7 @@ const Detail = (props) => {
   const whichStyle = props.orientation === 'portrait' ? portraitStyles : landscapeStyles;  
   return (
     <ScrollView style={whichStyle.detail}>
+      {(props.loading) ? <Text style={whichStyle.text}>Loading...</Text> : null}
       <TouchableOpacity style={whichStyle.button} onPress={props.goBack}>
         <Text style={whichStyle.text}>Go Back</Text>
       </TouchableOpacity>

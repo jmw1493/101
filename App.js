@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
-import SearchContainer from '../containers/SearchContainer';
-import MainContainer from '../containers/MainContainer';
+import SearchContainer from './client/containers/SearchContainer';
+import MainContainer from './client/containers/MainContainer';
 
 const App = () => (
   <View>

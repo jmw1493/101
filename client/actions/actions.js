@@ -19,6 +19,11 @@ export const rotate = (orientation) => ({
   orientation
 });
 
+const loading = (bool) => ({
+  type: types.LOADING,
+  bool
+})
+
 const deliverPhotos = (photos) => ({
   type: types.DELIVER_PHOTOS,
   photos
@@ -36,6 +41,7 @@ function fetchPhotos(search) {
 
 export const requestPhotos = (search) => {
   return (dispatch) => {
+    dispatch(loading('true'))
     return fetchPhotos(search)
       .then(res => res.json())
       .then((photos, err) => {

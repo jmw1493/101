@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import loggerMiddleware from 'redux-logger';
-import App from './client/components/App';
+import App from './App.js';
 import reducer from './client/reducers/reducer';
 
 function configureStore(preloadedState) {

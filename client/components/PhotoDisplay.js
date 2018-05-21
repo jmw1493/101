@@ -6,12 +6,10 @@ import Photo from './Photo'
 export default class PhotoDisplay extends Component {
   constructor(props) {
     super(props);
-    console.log('helooo')
   }
 
   componentDidMount() {
-    console.log('in CDM')
-    this.refs._scrollView.scrollTo({y: this.props.position})
+    this.refs._scrollView.scrollTo({y: this.props.position}) //trying this for android
   }
 
   handleScroll = (event) => {
@@ -22,9 +20,9 @@ export default class PhotoDisplay extends Component {
     return (
       <ScrollView 
         style={styles.photoView}
-        ref='_scrollView'
+        ref='_scrollView' //trying this w/ the method in compDM() but not working, need to console.log things so have to install adb
         onMomentumScrollEnd={this.handleScroll}
-        contentOffset={{y: this.props.position}
+        contentOffset={{y: this.props.position} //not available in android!
       >
         (this.props.loading) ? <Text>Loading...</Text> : null
         <View style={styles.viewContainer}>

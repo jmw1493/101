@@ -1,36 +1,47 @@
-import React, { Component } from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  TextInput
-} from 'react-native';
+import React from 'react';
+import { StyleSheet, View, TextInput } from 'react-native';
 
  const Search = (props) => {
-   return (
-    <View style={styles.header}>
+  const whichStyle = props.orientation === 'portrait' ? portraitStyles : landscapeStyles;
+  return (
+    <View style={whichStyle.searchWrapper}>
       <TextInput 
-        style={styles.input}
+        style={whichStyle.input}
         placeholder='Enter Text'
         onSubmitEditing={(event) => props.search(event.nativeEvent.text)}
       />
     </View>
- )}
+  );
+};
 
-const styles = StyleSheet.create({
-  header: {
-    height: 100,
-    backgroundColor: "#f2f2f2",
-    alignItems: "center",
-    borderBottomColor: "black",
-    borderBottomWidth: 1
+const portraitStyles = StyleSheet.create({
+  searchWrapper: {
+    width: '100%',
+    height: '100%',
+    justifyContent: 'flex-end',
+    alignItems: 'center'
   },
   input: {
-    height: 40,
-    width: 300,
+    height: '40%',
+    width: '80%',
     backgroundColor: "white",
-    marginTop: 50
+    marginBottom: '4%',
   }
 });
 
-export default Search
+const landscapeStyles = StyleSheet.create({
+  searchWrapper: {
+    width: '100%',
+    height: '100%',
+    justifyContent: 'flex-end',
+    alignItems: 'center'
+  },
+  input: {
+    height: '65%',
+    width: '70%',
+    backgroundColor: "white",
+    marginBottom: '1.5%'
+  }
+});
+
+export default Search;

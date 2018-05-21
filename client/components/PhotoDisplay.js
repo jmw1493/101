@@ -1,74 +1,33 @@
 import React, { Component } from 'react';
-import { View, ScrollView, Text, StyleSheet, Image, TouchableHighlight, Dimensions } from 'react-native';
-import PhotoDisplay from './PhotoDisplay'
-import Detail from './Detail'
-
-//give state the content offset-y
-//when we press an image -> update the offset in redux
-//make ref to scrollview (... ref = 'scrollView')
-//in componentdidmount -> this.refs.scrollView.scrollTo(position)
-//scrollTo({x: 0, y: ...position, animated: false})
-
-//for orientation, can get height of full screen w/ import Dimensions & Dimensions.get
-//Dimensions.addEventListener('change', callback)
-//find ratio of height so know general position when flipped ... better way?
+import { ScrollView, StyleSheet, View, Image, TouchableHighlight } from 'react-native';
 
 
-export default class Main extends Component {
+export default class PhotoDisplay extends Component {
   constructor(props) {
     super(props);
-    this.myRef = React.createRef();
-    this.state = {
-      position: this.props.position
-    }
-  }
-
-  componentDidMount() {
-    if (this.props.mainPage) {
-      this.refs._scrollView.scrollTo({
-        y: this.state.position,
-        animated: false
-      })
-      // this.myRef.getNode().scrollToOffset({
-      //   y: this.state.position,
-      //   animated: false,
-  // });
-      //   this.scrollView.scrollTo({
-      //     y: this.state.position, //or this.state.position
-      //     animated: false
-      //   })
-    }
   }
 
   handleScroll = (event) => {
-    let offset = event.nativeEvent.contentOffset.y
-    console.log('offset: ' + offset)
-    this.setState({
-      position: offset
-    })
+    this.props.updatePosition(event.nativeEvent.contentOffset.y)
   }
-
-  getPosition = () => this.state.position;
 
   render() {
     return (
-      (this.props.mainPage)
-      ?
-        <ScrollView 
-          ref='_scrollView'
-          // ref={this.scrollView}
-          // onMomentumScrollEnd={(event)=>console.log('scroll event: ' + event.nativeEvent.contentOffset.y)} //tell state/store position
-          onMomentumScrollEnd={this.handleScroll}
-        >
+      <ScrollView 
+        style={styles.photoView}
+        ref='_scrollView'
+        onMomentumScrollEnd={this.handleScroll}
+        contentOffset={{y: this.props.position}}
+      >
+        <View style={styles.viewContainer}>
           {this.props.photos.map((photo, i) => (
             <TouchableHighlight 
               key={photo.id} 
               onPress={() => {
-                console.log('result of getposition: ' + this.getPosition())
-                let position = this.getPosition()
-                return this.props.selectPhoto(photo.id, position)
+                return this.props.selectPhoto(photo.id)
               }} 
               underlayColor='blue'
+              style={styles.photoContainer}
             >
               <Image 
                 source={{
@@ -78,25 +37,26 @@ export default class Main extends Component {
               />
             </TouchableHighlight>
           ))}
-        </ScrollView>
-      :
-        <ScrollView>
-          <Detail photo={this.props.photos[this.props.index]} goBack={this.props.goBack}/>
-        </ScrollView>
-    )
+        </View>  
+      </ScrollView>
+    );
   }
-}
+};
 
 const styles = StyleSheet.create({
-  main: {
-    // height: 600,
-    // backgroundColor: "blue"
-    // flexDirection: "column"
-    // overflow: "scroll"
+  photoView: {
+    height: '100%',
+  },
+  viewContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap'
+  },
+  photoContainer: {
+    width: "50%",
+    height: 150,
   },
   photo: {
-    height: 150,
-    // width: 100
+    flex: 1,
   }
 });
 

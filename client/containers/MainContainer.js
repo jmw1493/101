@@ -1,41 +1,54 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {
-  StyleSheet,
-  Text,
-  View,
-  TextInput
-} from 'react-native';
+import { View, Dimensions, StyleSheet } from 'react-native';
 import Main from '../components/Main'
-import { selectPhoto, goBack } from '../actions/actions'
+import { selectPhoto, goBack, updatePosition, rotate } from '../actions/actions';
 
 const mapStateToProps = state => ({
   photos: state.photos,
   index: state.indexOfSelectedPhoto,
   position: state.position,
-  mainPage: state.mainPage //if mainPage is true, render mainPage (list of photos), otherwise details page of specific photo
+  mainPage: state.mainPage,
+  orientation: state.orientation
 });
 
 const mapDispatchToProps = dispatch => ({
-  selectPhoto: (photoID, position) => dispatch(selectPhoto(photoID)),
-  goBack: () => dispatch(goBack())
+  selectPhoto: (photoID) => dispatch(selectPhoto(photoID)),
+  goBack: () => dispatch(goBack()),
+  updatePosition: (position) => dispatch(updatePosition(position)),
+  rotate: (orientation) => dispatch(rotate(orientation))
 });
 
 class MainContainer extends Component {
+  constructor(props) {
+    super(props);
+  }
+
+  componentDidMount() {
+    Dimensions.addEventListener('change', () => {
+      this.props.rotate(this.getOrientation())
+    });
+  }
+
+  getOrientation = () => {
+    const { height, width } = Dimensions.get('window');
+    return (height > width) ? 'portrait' : 'landscape'
+  }
+
   render() {
     return (
-      <View>
-        <Main 
-          photos={(this.props.photos.length) ? this.props.photos : []} 
-          index={this.props.index}
-          position={this.props.position}
-          mainPage={this.props.mainPage}
-          selectPhoto={this.props.selectPhoto} 
-          goBack={this.props.goBack}
-        />
+      <View style={styles.mainContainer}>
+        <Main {...this.props}/>
       </View>
-    )
+    );
+  } 
+};
+
+const styles = StyleSheet.create({
+  mainContainer: {
+    height: '85%',
+    justifyContent: "center",
   }
-}
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(MainContainer);

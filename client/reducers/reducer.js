@@ -1,27 +1,39 @@
 import * as types from '../actions/actionTypes';
+import { Dimensions } from 'react-native';
+
+let { height, width } = Dimensions.get('window');
+let orientation = (height > width) ? 'portrait' : 'landscape';
 
 const initialState = {
   photos: [],
   indexOfSelectedPhoto: 0,
   mainPage: true,
-  position: 0
+  position: 0,
+  orientation: orientation
 };
 
 const reducer = (state=initialState, action) => {
   switch(action.type) {
     case types.DELIVER_PHOTOS:
-      return Object.assign({}, state, {photos: action.photos})
+      return Object.assign({}, state, {
+        photos: action.photos,
+        mainPage: true,
+        position: 0
+      })
     case types.SELECT_PHOTO:
-      console.log('reducer - action.photoID: ' + action.photoID)
       let selectedPhotoIndex = state.photos.map((photo) => photo.id).indexOf(action.photoID);
-      console.log('reducer - selectedPhotoIndex: ' + selectedPhotoIndex)
       return Object.assign({}, state, {
         indexOfSelectedPhoto: selectedPhotoIndex,
-        position: action.position, 
-        mainPage: false
+        mainPage: false,
       })
     case types.UPDATE_POSITION:
-      return Object.assign({}, state, {position: action.position})
+      return Object.assign({}, state, {
+        position: action.position,
+      })
+    case types.ROTATE:
+      return Object.assign({}, state, {
+        orientation: action.orientation
+      })
     case types.GO_BACK:
       return Object.assign({}, state, {mainPage: true})
     default:

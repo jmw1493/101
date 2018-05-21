@@ -4,7 +4,7 @@ import SearchContainer from './client/containers/SearchContainer';
 import MainContainer from './client/containers/MainContainer';
 
 const App = () => (
-  <View>
+  <View style={styles.app}>
     <SearchContainer/>
     <MainContainer/>
   </View>

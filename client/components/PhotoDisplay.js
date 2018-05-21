@@ -22,9 +22,9 @@ export default class PhotoDisplay extends Component {
         style={styles.photoView}
         ref='_scrollView' //trying this w/ the method in compDM() but not working, need to console.log things so have to install adb
         onMomentumScrollEnd={this.handleScroll}
-        contentOffset={{y: this.props.position} //not available in android!
+        contentOffset={{y: this.props.position}} //not available in android!
       >
-        (this.props.loading) ? <Text>Loading...</Text> : null
+        {(this.props.loading) ? <Text>Loading...</Text> : null}
         <View style={styles.viewContainer}>
           {
             (!this.props.photos.length > 0 && !this.props.initialRender)
@@ -41,7 +41,6 @@ export default class PhotoDisplay extends Component {
                 style={styles.photoContainer}
               >
                 <Photo photo={photo}/>
-                {/* <Image source={{uri: photo.webformatURL}} style={styles.photo}/> */}
               </TouchableHighlight>
             ))
           }

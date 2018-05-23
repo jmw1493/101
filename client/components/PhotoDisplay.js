@@ -6,25 +6,33 @@ import Photo from './Photo'
 export default class PhotoDisplay extends Component {
   constructor(props) {
     super(props);
+    this.scrollView = React.createRef()
   }
 
   componentDidMount() {
-    this.refs._scrollView.scrollTo({y: this.props.position}) //trying this for android
+    this.scrollView.current.scrollTo({y: this.props.position, animated: false}); //trying this for android
   }
 
   handleScroll = (event) => {
-    this.props.updatePosition(event.nativeEvent.contentOffset.y)
+    this.props.updatePosition(event.nativeEvent.contentOffset.y);
+    const totalHeight = event.nativeEvent.contentSize.height;;
+    const currentHeight = event.nativeEvent.contentOffset.y;
+    if (currentHeight / totalHeight >= 0.75) this.props.getPhotos(this.props.search, this.props.apiPageNum + 1);
   }
 
   render() {
     return (
       <ScrollView 
         style={styles.photoView}
-        ref='_scrollView' //trying this w/ the method in compDM() but not working, need to console.log things so have to install adb
-        onMomentumScrollEnd={this.handleScroll}
-        contentOffset={{y: this.props.position}} //not available in android!
+        ref={this.scrollView}
+        //if I need to console.log things in Android, I have to install adb
+        onMomentumScrollEnd={this.handleScroll} 
+        onScrollEndDrag={this.handleScroll} //necessary because the above doesn't work if user keeps finger on screen as he/she drags
+
+        // contentOffset={{y: this.props.position}} //not available in android!, but all we need for RN, don't need refs
       >
-        {(this.props.loading) ? <Text>Loading...</Text> : null}
+
+        {(this.props.loading && this.props.apiPageNum === 1) ? <Text>Loading...</Text> : null}
         <View style={styles.viewContainer}>
           {
             (!this.props.photos.length > 0 && !this.props.initialRender)

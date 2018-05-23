@@ -10,12 +10,15 @@ const Main = (props) => (
       ?
         <PhotoDisplay 
           photos={props.photos}
+          search={props.search}
           position={props.position}
           selectPhoto={props.selectPhoto} 
           updatePosition={props.updatePosition}
           orientation={props.orientation}
           initialRender={props.initialRender}
           loading={props.loading}
+          getPhotos={props.getPhotos}
+          apiPageNum={props.apiPageNum}
         />
       :
         <Detail 

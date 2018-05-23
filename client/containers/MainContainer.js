@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { View, Dimensions, StyleSheet } from 'react-native';
 import Main from '../components/Main'
-import { selectPhoto, goBack, updatePosition, rotate } from '../actions/actions';
+import { selectPhoto, goBack, updatePosition, rotate, requestPhotos } from '../actions/actions';
 
 const mapStateToProps = state => ({
   photos: state.photos,
@@ -11,14 +11,17 @@ const mapStateToProps = state => ({
   mainPage: state.mainPage,
   orientation: state.orientation,
   initialRender: state.initialRender,
-  loading: state.loading
+  loading: state.loading,
+  apiPageNum: state.apiPageNum,
+  search: state.search
 });
 
 const mapDispatchToProps = dispatch => ({
   selectPhoto: (photoID) => dispatch(selectPhoto(photoID)),
   goBack: () => dispatch(goBack()),
   updatePosition: (position) => dispatch(updatePosition(position)),
-  rotate: (orientation) => dispatch(rotate(orientation))
+  rotate: (orientation) => dispatch(rotate(orientation)),
+  getPhotos: (text, apiPageNum) => dispatch(requestPhotos(text, apiPageNum))
 });
 
 class MainContainer extends Component {

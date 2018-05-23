@@ -5,11 +5,12 @@ import { View, StyleSheet } from 'react-native';
 import { requestPhotos } from '../actions/actions';
 
 const mapStateToProps = state => ({
-  orientation: state.orientation
+  orientation: state.orientation,
+  apiPageNum: state.apiPageNum
 });
 
 const mapDispatchToProps = dispatch => ({
-  search: text => dispatch(requestPhotos(text))
+  getPhotos: (text, apiPageNum) => dispatch(requestPhotos(text, apiPageNum))
 });
 
 const SearchContainer = (props) => (

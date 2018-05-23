@@ -22,30 +22,37 @@ export const rotate = (orientation) => ({
 const loading = (bool) => ({
   type: types.LOADING,
   bool
-})
-
-const deliverPhotos = (photos) => ({
-  type: types.DELIVER_PHOTOS,
-  photos
 });
 
-function fetchPhotos(search) {
+const deliverPhotos = (search, photos, apiPageNum) => ({
+  type: types.DELIVER_PHOTOS,
+  search,
+  photos,
+  apiPageNum
+});
+
+function fetchPhotos(search, apiPageNum) {
   const API_Key = '9018030-ff43f446a20beb47e7c302b8a';
   const baseURL = `https://pixabay.com/api/?key=${API_Key}&q=`;
   const re = new RegExp(' ', 'g');
   let searchURL = search.replace(re, '+');
-  const specsURL = '&image_type=photo&pretty=true&per_page=200';
+  const specsURL = `&image_type=photo&page=${apiPageNum}&per_page=100`;
   const url = baseURL + searchURL + specsURL;
   return fetch(url);
 }
 
-export const requestPhotos = (search) => {
+export const requestPhotos = (search, apiPageNum) => {
   return (dispatch) => {
     dispatch(loading('true'))
-    return fetchPhotos(search)
-      .then(res => res.json())
-      .then((photos, err) => {
-        dispatch(deliverPhotos(photos.hits))
-      });
+    return fetchPhotos(search, apiPageNum)
+      .then(res => {
+        if (res.ok) return res.json();
+        throw [];
+      })
+      .then((photos) => dispatch(deliverPhotos(search, photos.hits, apiPageNum))
+      )
+      .catch(err => {
+        return console.log('no more photos available')
+      })
   };
 };

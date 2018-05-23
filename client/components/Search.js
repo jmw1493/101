@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, TextInput, Text,TouchableOpacity } from 'react-native';
+import { StyleSheet, View, TextInput, Text, TouchableOpacity } from 'react-native';
 
- export default class Search extends Component {
+export default class Search extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -17,9 +17,9 @@ import { StyleSheet, View, TextInput, Text,TouchableOpacity } from 'react-native
           style={whichStyle.input}
           placeholder='Enter Text'
           onChangeText={(text) => this.setState({typing: text})}
-          onSubmitEditing={(event) => this.props.search(event.nativeEvent.text)}
+          onSubmitEditing={(event) => this.props.getPhotos(event.nativeEvent.text, 1)}
         />
-        <TouchableOpacity style={whichStyle.submit} onPress={() => this.props.search(this.state.typing)}>
+        <TouchableOpacity style={whichStyle.submit} onPress={() => this.props.getPhotos(this.state.typing, 1)}>
           <Text style={whichStyle.text}>Submit</Text>
         </TouchableOpacity>
       </View>

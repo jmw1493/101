@@ -10,7 +10,7 @@ export default class PhotoDisplay extends Component {
   }
 
   componentDidMount() {
-    this.scrollView.current.scrollTo({y: this.props.position, animated: false}); //trying this for android
+    this.scrollView.current.scrollTo({y: this.props.position, animated: false}); //this doesn't work for android!
   }
 
   handleScroll = (event) => {
@@ -25,13 +25,12 @@ export default class PhotoDisplay extends Component {
       <ScrollView 
         style={styles.photoView}
         ref={this.scrollView}
-        //if I need to console.log things in Android, I have to install adb
         onMomentumScrollEnd={this.handleScroll} 
         onScrollEndDrag={this.handleScroll} //necessary because the above doesn't work if user keeps finger on screen as he/she drags
-
-        // contentOffset={{y: this.props.position}} //not available in android!, but all we need for RN, don't need refs
+        
+        // contentOffset={{y: this.props.position}} // <- this doesn't work for android either!, but is all we need for RN (don't need refs)
+        //if I need to console.log things in Android, I have to install adb
       >
-
         {(this.props.loading && this.props.apiPageNum === 1) ? <Text>Loading...</Text> : null}
         <View style={styles.viewContainer}>
           {
